@@ -6,3 +6,4 @@ services:
     volumes:
       - .:/code
       - ~/.config:/root/.config
+      - ~/.aws/:/root/.aws:ro

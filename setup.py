@@ -15,6 +15,7 @@ VERSION = "0.0.1"
 PYTHON_REQUIRES = ">=3.9"
 INSTALL_REQUIRES = [
     "gcshus",
+    "boto3",
 ]
 PACKAGES = ["stowrap"]
 PACKAGE_DIR = {"": "src"}
