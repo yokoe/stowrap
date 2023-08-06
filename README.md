@@ -16,5 +16,6 @@ c = stowrap.Client("s3")
 
 ### Upload a file
 ```
-c.upload("my-bucket", "/path/to/local/file", "dstfile.txt")
+result = c.upload("my-bucket", "/path/to/local/file", "dstfile.txt")
+print(result.url)
 ```
