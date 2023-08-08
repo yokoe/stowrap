@@ -28,6 +28,15 @@ class TestUpload(unittest.TestCase):
             f"url is {result.url}",
         )
 
+    def test_s3_generate_download_url(self):
+        bucket = os.environ["TEST_S3_BUCKET"]
+        self.upload_test_file("s3", bucket, "test.txt")
+        url = stowrap.Client("s3").generate_download_url(bucket, "test.txt", 5)
+        self.assertTrue(
+            url.startswith(f"https://{bucket}.s3.amazonaws.com/"),
+            f"url is {url}",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
