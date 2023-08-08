@@ -28,6 +28,17 @@ class TestUpload(unittest.TestCase):
             f"url is {result.url}",
         )
 
+    def test_gcs_generate_download_url(self):
+        self.upload_test_file("gcs", os.environ["TEST_GCS_BUCKET"], "test.txt")
+        try:
+            url = stowrap.Client("gcs").generate_download_url(
+                os.environ["TEST_GCS_BUCKET"], "test.txt", 5
+            )
+        except stowrap.NotServiceAccountException:
+            self.skipTest("Not a service account")
+        except Exception as e:
+            self.fail(f"Unexpected exception: {e}")
+
     def test_s3_generate_download_url(self):
         bucket = os.environ["TEST_S3_BUCKET"]
         self.upload_test_file("s3", bucket, "test.txt")

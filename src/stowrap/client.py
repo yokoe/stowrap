@@ -12,6 +12,10 @@ class UnsupportedOperation(Exception):
     pass
 
 
+class NotServiceAccountException(Exception):
+    pass
+
+
 @dataclasses.dataclass
 class UploadResult:
     url: str
@@ -51,6 +55,14 @@ class GCS(StorageService):
     def upload(self, bucket, src_file, dst_file) -> UploadResult:
         gcshus.upload(self.gcs_client, bucket, src_file, dst_file)
         return UploadResult(f"https://storage.googleapis.com/{bucket}/{dst_file}")
+
+    def generate_download_url(self, bucket, file, mins) -> str:
+        try:
+            return gcshus.generate_download_signed_url_with_token_refresh(
+                self.gcs_client, bucket, file, mins * 60
+            )
+        except gcshus.NotServiceAccountException:
+            raise NotServiceAccountException("GCS client is not a service account. ")
 
 
 class S3(StorageService):

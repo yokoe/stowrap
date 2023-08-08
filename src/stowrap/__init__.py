@@ -1,1 +1,7 @@
-from .client import Client, UploadResult
+from .client import (
+    Client,
+    UploadResult,
+    UnsupportedService,
+    UnsupportedOperation,
+    NotServiceAccountException,
+)
