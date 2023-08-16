@@ -18,7 +18,7 @@ class TestUpload(unittest.TestCase):
 
     def test_gcs_upload(self):
         result = self.upload_test_file("gcs", os.environ["TEST_GCS_BUCKET"], "test.txt")
-        self.assertTrue(result.url.startswith("https://storage.googleapis.com/"))
+        self.assertTrue(result.url.startswith("https://storage.cloud.google.com/"))
 
     def test_s3_upload(self):
         bucket = os.environ["TEST_S3_BUCKET"]

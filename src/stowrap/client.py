@@ -54,7 +54,7 @@ class GCS(StorageService):
 
     def upload(self, bucket, src_file, dst_file) -> UploadResult:
         gcshus.upload(self.gcs_client, bucket, src_file, dst_file)
-        return UploadResult(f"https://storage.googleapis.com/{bucket}/{dst_file}")
+        return UploadResult(f"https://storage.cloud.google.com/{bucket}/{dst_file}")
 
     def generate_download_url(self, bucket, file, mins) -> str:
         try:
