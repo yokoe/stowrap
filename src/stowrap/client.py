@@ -39,6 +39,9 @@ class Client:
     def generate_download_url(self, bucket, file, mins) -> str:
         return self.storage_service.generate_download_url(bucket, file, mins)
 
+    def download(self, bucket, remote_file, local_file):
+        return self.storage_service.download(bucket, remote_file, local_file)
+
 
 class StorageService:
     def upload(self, bucket, src_file, dst_file) -> UploadResult:
@@ -46,6 +49,9 @@ class StorageService:
 
     def generate_download_url(self, bucket, file, mins) -> str:
         raise UnsupportedOperation("Download URL generation is not supported")
+
+    def download(self, bucket, remote_file, local_file):
+        raise UnsupportedOperation("Download operation is not supported")
 
 
 class GCS(StorageService):
@@ -64,6 +70,9 @@ class GCS(StorageService):
         except gcshus.NotServiceAccountException:
             raise NotServiceAccountException("GCS client is not a service account. ")
 
+    def download(self, bucket, remote_file, local_file):
+        gcshus.download(self.gcs_client, bucket, remote_file, local_file)
+
 
 class S3(StorageService):
     def upload(self, bucket, src_file, dst_file) -> UploadResult:
@@ -76,3 +85,6 @@ class S3(StorageService):
             Params={"Bucket": bucket, "Key": file},
             ExpiresIn=mins * 60,
         )
+
+    def download(self, bucket, remote_file, local_file):
+        boto3.resource("s3").Bucket(bucket).download_file(remote_file, local_file)

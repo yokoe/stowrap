@@ -19,3 +19,9 @@ c = stowrap.Client("s3")
 result = c.upload("my-bucket", "/path/to/local/file", "dstfile.txt")
 print(result.url)
 ```
+
+
+### Download a file
+```
+c.download("my-bucket", "some/remote/file.txt", "/path/to/local/file.txt")
+```
